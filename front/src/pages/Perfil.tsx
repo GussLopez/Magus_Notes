@@ -6,7 +6,9 @@ function Perfil() {
     return (
     <>
     <Header />
-        <h1>Hola</h1>
+        <div className="max-w-screen-lg mx-auto px-2 h-screen">
+            <h1 className="font-semibold text-3xl">Perfil</h1>
+        </div>
     <Footer />
     </>  
     )  

@@ -1,30 +1,157 @@
-import { useForm, SubmitHandler } from "react-hook-form";
-import IUser from "../interfaces/IUser";
+import { useState } from 'react';
+import axios from 'axios';
 
+const API_URL = 'http://localhost:4000/api'; 
 
-function Login() {
-    const { register, handleSubmit, watch, formState: { errors } } = useForm<IUser>();
-    const onSubmit: SubmitHandler<IUser> = data => console.log(data);
+export default function AuthApp() {
+    const [isLogin, setIsLogin] = useState(true); 
+    
     return (
-        <>
-            <div className="flex justify-center items-center min-h-screen bg-gradient-to-r from-cyan-500 to-blue-500">
-                <div className="box-border w-[400px] p-5 flex flex-col shadow bg-white rounded-2xl">
-                    <h1 className="text-center text-3xl font-bold text-cyan-700 my-5">TimeBoxing ⏰</h1>
-                    <form onSubmit={handleSubmit(onSubmit)} >
-                        {/* register your input into the hook by invoking the "register" function */}
-                        <input type="email" {...register("email")} placeholder="Email" className="block p-3 my-6 w-full rounded border-gray-black border-2 border-solid border-gray-200" />
-
-                        {/* include validation with required or other standard HTML validation rules */}
-                        <input type="password" {...register("password", { required: true })} placeholder="Password" className="block p-3 my-6 w-full rounded  border-2 border-solid border-gray-200" />
-                        {/* errors will return when field validation fails  */}
-                        {errors.password && <span className="block my-5 py-2 rounded text-center bg-red-600 text-white">Debe ingresar una contraseña</span>}
-
-                        <input type="submit" className="bg-cyan-500 px-3 py-2 rounded w-full cursor-pointer hover:bg-cyan-600 transition-colors text-white" />
-                    </form>
-                </div>
-            </div>
-        </>
-    )
+        <div className="auth-container">
+            {isLogin ? <LoginForm /> : <RegisterForm />}
+            <button onClick={() => setIsLogin(!isLogin)}>
+                {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
+            </button>
+        </div>
+    );
 }
 
-export default Login
+function LoginForm() {
+    const [formData, setFormData] = useState({ username: '', password: '' });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${API_URL}/auth/login`, formData);
+            alert('Inicio de sesión exitoso');
+            console.log('Token:', response.data);
+        } catch (error) {
+            alert('Error al iniciar sesión: ' + error.response?.data?.message || error.message);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <h2>Iniciar sesión</h2>
+            <label>
+                Usuario:
+                <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Contraseña:
+                <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <button type="submit">Iniciar sesión</button>
+        </form>
+    );
+}
+
+function RegisterForm() {
+    const [formData, setFormData] = useState({
+        id: 0,
+        nombre: '',
+        apellido: '',
+        correo: '',
+        telefono: '',
+        activo: 1,
+        username: '',
+        password: '',
+    });
+
+    const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+    };
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        try {
+            const response = await axios.post(`${API_URL}/usuarios`, formData);
+            alert('Registro exitoso');
+            console.log('Respuesta del servidor:', response.data);
+        } catch (error) {
+            alert('Error al registrarse: ' + error.response?.data?.message || error.message);
+        }
+    };
+
+    return (
+        <form onSubmit={handleSubmit}>
+            <h2>Registrarse</h2>
+            <label>
+                Nombre:
+                <input
+                    type="text"
+                    name="nombre"
+                    value={formData.nombre}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Apellido:
+                <input
+                    type="text"
+                    name="apellido"
+                    value={formData.apellido}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Correo:
+                <input
+                    type="email"
+                    name="correo"
+                    value={formData.correo}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Teléfono:
+                <input
+                    type="text"
+                    name="telefono"
+                    value={formData.telefono}
+                    onChange={handleChange}
+                />
+            </label>
+            <label>
+                Usuario:
+                <input
+                    type="text"
+                    name="username"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <label>
+                Contraseña:
+                <input
+                    type="password"
+                    name="password"
+                    value={formData.password}
+                    onChange={handleChange}
+                    required
+                />
+            </label>
+            <button type="submit">Registrarse</button>
+        </form>
+    );
+}

@@ -6,31 +6,29 @@ const api = axios.create({
 // Obtiene todas las notas
 export const obtenerNotas = async () => {
   const response = await api.get('/api/notas');
-
-  console.log("Nota array", response);
   return response.data.body;
 };
 
 // Obtiene una nota por ID
 export const obtenerNotaPorId = async (id: number) => {
-  const response = await api.get(`/notas/${id}`);
+  const response = await api.get(`/api/notas/${id}`);
   return response.data;
 };
 
 // Crea una nueva nota
-export const crearNota = async (nota: { titulo: string; texto: string }) => {
+export const crearNota = async (nota: { titulo: string; texto: string; frase: string }) => {
   const response = await api.post('/api/notas', nota);
   return response.data;
 };
 
 // Actualiza una nota
-export const actualizarNota = async (id: number, nota: { titulo: string; texto: string }) => {
-  const response = await api.put('/notas', { id, ...nota });
+export const actualizarNota = async (id: number, nota: { titulo: string; frase: string, texto: string }) => {
+  const response = await api.post('/api/notas', { id, ...nota });
   return response.data;
 };
 
 // Elimina una nota
 export const eliminarNota = async (id: number) => {
-  const response = await api.put('/notas', { id });
+  const response = await api.put('/api/notas', { id });
   return response.data;
 };

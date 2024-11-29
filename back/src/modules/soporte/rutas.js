@@ -11,17 +11,6 @@ router.get('/:id', uno);
 router.post('/',  agregar);
 router.put('/', seguridad(), eliminar);
 
-router.get('/login', login)
-
-async function login (req, res, next) {
-    try {
-        const token = await controlador.login(req.body.username, req.body.password);
-        respuesta.success(req, res, token, 200);
-    } catch (err) {
-        next(err);
-    }
-}
-
 async function todos (req, res, next) {
     try {
         const items = await controlador.todos();

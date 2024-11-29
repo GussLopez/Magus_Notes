@@ -1,72 +1,55 @@
-import { CaretDown, CaretRight } from "@phosphor-icons/react";
-import { useEffect, useRef, useState } from "react";
-import { useDarkMode } from "../interfaces/DarkMode";
+import { Menu, MenuButton, MenuItem, MenuItems } from '@headlessui/react'
+import { useDarkMode } from '../interfaces/DarkMode'
+import { DotsThreeVertical, DownloadSimple, Heart, QrCode, ShareFat } from '@phosphor-icons/react'
 
-const DropDown = ({ options, onSelect }: { options: string[]; onSelect: (option: string) => void }) => {
-    const [isExpanded, setIsExpanded] = useState(false);
-    const { isDarkMode } = useDarkMode();
-    const dropdownRef = useRef<HTMLDivElement>(null);
 
-    useEffect(() => {
-        const handleKeyDown = (event: KeyboardEvent) => {
-            if (event.key === "Escape") {
-                setIsExpanded(false);
-            }
-        };
-        document.addEventListener("keydown", handleKeyDown);
-        return () => document.removeEventListener("keydown", handleKeyDown);
-    }, []);
+export default function Example() {
 
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-                setIsExpanded(false);
-            }
-        };
-        document.addEventListener("mousedown", handleClickOutside);
-        return () => document.removeEventListener("mousedown", handleClickOutside);
-    }, []);
+    const { isDarkMode } = useDarkMode()
 
     return (
-        <div ref={dropdownRef} className="relative">
-            <button
-                onClick={() => setIsExpanded(!isExpanded)}
-                className={`flex items-center px-3 py-2 rounded ${isDarkMode ? 'bg-gray-900' : 'bg-white border border-gray-200'}`}
-                aria-expanded={isExpanded}
-            >
-                Opciones
-                <div className="ml-2">
-                    {isExpanded ? <CaretRight size={16} /> : <CaretDown size={16} />}
-                </div>
-            </button>
+        <div className="text-right">
+            <Menu>
+                <MenuButton className={`inline-flex items-center gap-2 rounded-full p-1.5 text-sm/6 font-semibold focus:outline-none    data-[focus]:outline-white ${isDarkMode ? ' data-[open]:bg-gray-900 data-[hover]:bg-gray-900 text-gray-200' : 'hover:bg-gray-50'} transition-colors`}>
 
-            {isExpanded && (
-                <div
-                    className={`${isDarkMode ? 'bg-gray-900 border-gray-950' : 'bg-white'} py-4 border rounded absolute mt-2 w-32`}
+                    <DotsThreeVertical size={32} />
+                </MenuButton>
+                <MenuItems
+                    transition
+                    anchor="bottom end"
+                    className={`w-52 origin-top-right rounded-md mt-2 p-1 text-sm/6  transition duration-100 ease-out [--anchor-gap:var(--spacing-1)] focus:outline-none data-[closed]:scale-95 data-[closed]:opacity-0 ${isDarkMode ? 'bg-gray-900' : 'bg-white border '}`}
                 >
-                    <ul>
-                        {options.map(option => (
-                            <li
-                                className={`p-default cursor-pointer transition-all ${
-                                    option === "Eliminar"
-                                        ? "hover:bg-red-500 hover:text-white"
-                                        : "hover:bg-cyan-500 hover:text-white"
-                                }`}
-                                key={option}
-                                role="menuitem"
-                                onClick={() => {
-                                    onSelect(option);
-                                    setIsExpanded(false);
-                                }}
-                            >
-                                {option}
-                            </li>
-                        ))}
-                    </ul>
-                </div>
-            )}
-        </div>
-    );
-};
+                    <MenuItem>
+                        <button className={`group flex w-full items-center gap-2 rounded py-1.5 px-3 hover:bg-cyan-500 hover:text-white  ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+                        <Heart size={20} weight="fill" />
+                            Añadir a Favoritos
+                        </button>
+                    </MenuItem>
+                    <MenuItem>
+                        <button className={`group flex w-full items-center gap-2 rounded py-1.5 px-3 hover:bg-cyan-500 hover:text-white  ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+                        <ShareFat size={20} weight="fill" />
 
-export default DropDown;
+                            Compartir
+                        </button>
+                    </MenuItem>
+                    <div className={`my-1 h-px bg-white`} />
+                    <MenuItem>
+                        <button className={`group flex w-full items-center gap-2 rounded py-1.5 px-3 hover:bg-cyan-500 hover:text-white  ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+
+                        <DownloadSimple size={20} weight="regular" />
+                            Descargar
+                        </button>
+                    </MenuItem>
+                    <MenuItem>
+                        <button className={`group flex w-full items-center gap-2 rounded py-1.5 px-3 hover:bg-cyan-500 hover:text-white  ${isDarkMode ? 'text-white' : 'text-gray-700'}`}>
+
+                        <QrCode size={20} weight='light' />
+                            QR
+                            
+                        </button>
+                    </MenuItem>
+                </MenuItems>
+            </Menu>
+        </div>
+    )
+}

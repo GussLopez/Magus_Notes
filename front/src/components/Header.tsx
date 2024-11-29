@@ -43,7 +43,7 @@ function Header() {
                                 </a>
                             </li>
                             <li>
-                                <a href="/" className=" rounded-xl border-2 border-cyan-600 px-6 py-2 font-medium text-cyan-500 hover:bg-cyan-600 hover:text-white transition-colors ">Log In
+                                <a href="/login" className=" rounded-xl border-2 border-cyan-600 px-6 py-2 font-medium text-cyan-500 hover:bg-cyan-600 hover:text-white transition-colors ">Log In
                                 </a>
                             </li>
                             <li>
