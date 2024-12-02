@@ -10,12 +10,10 @@ function Header() {
             <header className={` ${isDarkMode ? 'bg-gray-900' : 'bg-white'} px-4 shadow`}>
                 <div className="relative mx-auto flex max-w-screen-lg flex-col py-4 md:flex-row md:items-center md:justify-between ">
 
-                    <a href="/">
                         <div className="flex gap-5">
-                            <img src={Exclude} alt="Exclude Icon" className="w-6" />
-                            <h2 className={`mr-2 text-3xl font-bold  ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} `}>Magus Notes</h2>
+                            <a href="/" className="flex items-center"><img src={Exclude} alt="Exclude Icon" className="w-6" /></a>
+                            <a href="/"><h2 className={`mr-2 text-3xl font-bold  ${isDarkMode ? 'text-gray-200' : 'text-gray-700'} `}>Magus Notes</h2></a>
                         </div>
-                    </a>
 
                     <input type="checkbox" className="peer hidden" id="navbar-open" />
 

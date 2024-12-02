@@ -21,6 +21,11 @@ export const crearNota = async (nota: { titulo: string; texto: string; frase: st
   return response.data;
 };
 
+export const crearMensaje = async (contacto: { correo: string; mensajeSoporte: string }) => {
+  const response = await api.post('/api/contacto', contacto);
+  return response.data;
+};
+
 // Actualiza una nota
 export const actualizarNota = async (id: number, nota: { titulo: string; frase: string, texto: string }) => {
   const response = await api.post('/api/notas', { id, ...nota });

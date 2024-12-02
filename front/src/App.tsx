@@ -7,6 +7,7 @@ import Perfil from './pages/Perfil'
 import CrearNota from './pages/CrearNota'
 import EditarNota from './pages/EditarNota'
 import Iniciosesion from './pages/Login'
+import Soporte from './pages/Soporte'
 
 function App() {
   
@@ -20,6 +21,8 @@ function App() {
         <Route path="/perfil" element={<Perfil />} />
         <Route path="/login" element={<Iniciosesion />} />
         <Route path="/notas" element={<Notas />} />
+        <Route path="/soporte" element={<Soporte />} />
+        <Route path="/sobre-nosotros" element={<Soporte />} />
         <Route path="/crearNota" element={<CrearNota />} />
         <Route path={`/notas/editarNota/:id`} element={<EditarNota />} />
       </Routes>

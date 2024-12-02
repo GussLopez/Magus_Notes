@@ -7,7 +7,7 @@ function Footer() {
 
     return (
         <>
-            <footer className={`${isDarkMode ? 'bg-gray-900 border-t-2 border-t-gray-800' : 'bg-gray-50 border-t-gray-100 border-t-2'} py-10 mt-16 box-border px-2`}>
+            <footer className={`${isDarkMode ? 'bg-gray-900 border-t-2 border-t-gray-800' : 'bg-gray-50 border-t-gray-100 border-t-2'} pt-10 mt-16 box-border px-2`}>
                 <div className="mx-auto max-w-screen-xl flex flex-col md:flex-row md:justify-between mb-10 gap-10 md:gap-5 ">
 
                     <div className="flex flex-col items-center md:items-start md:flex-row gap-3 mb-6">
@@ -28,8 +28,8 @@ function Footer() {
                                 
                                 <a href="/" className="md:block hover:text-cyan-500 transition-colors">Home</a>
                                 <a href="/perfil" className="md:block hover:text-cyan-500 transition-colors">Perfil</a>
-                                <a href="/" className="md:block hover:text-cyan-500 transition-colors">Soporte</a>
-                                <a href="/" className="md:block hover:text-cyan-500 transition-colors">Sobre Nosotros</a>
+                                <a href="/soporte" className="md:block hover:text-cyan-500 transition-colors">Soporte</a>
+                                <a href="/sobre-nosotros" className="md:block hover:text-cyan-500 transition-colors">Sobre Nosotros</a>
                             </nav>
                         </div>
                         <div className="">
@@ -60,9 +60,9 @@ function Footer() {
                         </div>
                     
                 </div>
-                <div className="mx-auto max-w-screen-xl my-5">
+                <div className="mx-auto max-w-screen-xl">
                     <hr />
-                    <p className="my-5 text-center text-md text-gray-400">© 2024 Magus Notes. Todos los derechos reservados</p>
+                    <p className="my-10 text-center text-md text-gray-400">© 2024 Magus Notes. Todos los derechos reservados</p>
                 </div>
                 
             </footer>

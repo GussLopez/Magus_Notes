@@ -78,29 +78,16 @@ const EditarNota = () => {
             placeholder="Título de la Nota"
             value={titulo}
             onChange={(e) => setTitulo(e.target.value)}
-            className={`w-full block px-3 py-2 border rounded mb-5 outline-none ${isDarkMode ? 'bg-gray-700 border-0 focus:ring-2 focus:ring-cyan-500' : 'bg-white focus:ring-2 focus:ring-gray-500'} `}
+            className={`w-full block px-3 py-2 border rounded mb-5 outline-none`}
           />
-
-          <div className='flex gap-2'>
-            <select className='inline-block px-3 py-2 border rounded w-[150px]'>
-              <option value="">16px</option>
-              <option value="">14</option>
-              <option value="">12</option>
-            </select>
-            <select className='px-3 py-2 border rounded w-[200px]'>
-              <option value="">Arial</option>
-              <option value="">Verdana</option>
-              <option value="">Arial</option>
-            </select>
-            <button className='px-3 py-2 rounded border-2 border-gray-700 hover:bg-gray-700 hover:text-white transition-colors font-semibold'>Insertar Tabla</button>
-          </div>
+          
           <input
             id='frase-nota'
             type="text"
             placeholder="Frase"
             value={frase}
             onChange={(e) => setFrase(e.target.value)}
-            className={`w-full block px-3 py-2 border rounded mt-5 outline-none ${isDarkMode ? 'bg-gray-700 border-0 focus:ring-2 focus:ring-cyan-500' : 'bg-white focus:ring-2 focus:ring-gray-500'} `}
+            className={`w-full block px-3 py-2 border rounded mt-5 outline-non`}
           />
 
           <textarea
@@ -108,11 +95,11 @@ const EditarNota = () => {
             placeholder="Contenido"
             value={texto}
             onChange={(e) => setTexto(e.target.value)}
-            className={`w-full h-80 min-h-[350px] px-3 py-2 my-5 border rounded outline-none ${isDarkMode ? 'bg-gray-700 border-0 focus:ring-2 focus:ring-cyan-500' : 'bg-white focus:ring-2 focus:ring-gray-500'} `}
+            className={`w-full h-80 min-h-[350px] px-3 py-2 my-5 border rounded outline-none`}
           />
           <div className='text-right'>
             <button type="submit" className='px-3 py-2 bg-cyan-500 rounded hover:bg-cyan-600 transition-colors text-white font-semibold mr-1'>Guardar</button>
-            <button className='px-3 py-2 bg-green-600 hover:bg-green-700 transition-colors rounded text-white font-semibold ml-1'>Compartir</button>
+            <button type='button' className='px-3 py-2 bg-green-600 hover:bg-green-700 transition-colors rounded text-white font-semibold ml-1'>Compartir</button>
           </div>
         </form>
       </div>
