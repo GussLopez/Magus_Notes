@@ -8,6 +8,7 @@ import CrearNota from './pages/CrearNota'
 import EditarNota from './pages/EditarNota'
 import Iniciosesion from './pages/Login'
 import Soporte from './pages/Soporte'
+import Nota from './pages/Nota'
 
 function App() {
   
@@ -25,6 +26,7 @@ function App() {
         <Route path="/sobre-nosotros" element={<Soporte />} />
         <Route path="/crearNota" element={<CrearNota />} />
         <Route path={`/notas/editarNota/:id`} element={<EditarNota />} />
+        <Route path={`/notas/nota/:id`} element={<Nota />} />
       </Routes>
     </DarkModeProvider>
       

@@ -88,21 +88,27 @@ const Notas = () => {
             </Link>
           </div>
         ) : (
-          <ul>
+          <ul className='md:grid md:grid-cols-2 md:gap-5'>
             {filtrar.map((nota) => (
               <li className='mb-10' key={nota.id}>
-                <div className={`p-5 shadow rounded-md box-border my-8 md:my-0 ${isDarkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                <div className={`p-5 shadow rounded-md box-border my-8 md:my-0 dark:bg-gray-800 bg-white h-[300px]`}>
                   <div className="flex justify-between">
                     <h3 className="font-bold text-2xl mb-5">{nota.titulo}</h3>
                     <DropDown />
                   </div>
-                  <p className='italic font-thin'>"{nota.frase}"</p>
-                  <div className="flex gap-5 box-border">
-                    <div>
-                      <p className="my-5">{nota.texto}</p>
+                  <Link to={`/notas/nota/${nota.id}`} className='hover:scale-105 transition-all'>
+                    <p className='italic font-thin'>"{nota.frase}"</p>
+                    <div className="flex gap-5 box-border">
+                      <div>
+                        <p className="my-5 md:h-[70px]">
+                          {nota.texto.length > 100
+                            ? `${nota.texto.slice(0, 100)}...`
+                            : nota.texto}
+                        </p>
+                      </div>
                     </div>
-                  </div>
-                  <hr />
+                    <hr />
+                  </Link>
                   <div className="flex justify-between mt-5 px-5">
                     <Link to={`/notas/editarNota/${nota.id}`} className='btn bg-green-500 text-white hover:bg-green-600 transition-colors'>
                       <NotePencil />

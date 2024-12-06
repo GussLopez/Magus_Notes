@@ -2,11 +2,9 @@ import { useEffect, useState } from 'react';
 import { obtenerNotaPorId, actualizarNota } from '../services/notas';
 import { useParams } from 'react-router-dom';
 import Header from '../components/Header';
-import { useDarkMode } from '../interfaces/DarkMode';
 import Footer from '../components/Footer';
 
 const EditarNota = () => {
-  const { isDarkMode } = useDarkMode();
   const { id } = useParams<{ id: string }>();
 
   const notaId = parseInt(id || '0', 10);
