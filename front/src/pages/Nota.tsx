@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { obtenerNotaPorId } from "../services/notas";
-import waves from "../assets/stack-waves.svg"
 
 function Nota() {
 
@@ -42,6 +41,7 @@ function Nota() {
             <p className="leading-loose">{texto}</p>
           </div>
         </div>
+        <Footer />
     </>
   )
 }
