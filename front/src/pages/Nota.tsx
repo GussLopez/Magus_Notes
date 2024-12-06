@@ -3,7 +3,6 @@ import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { useEffect, useState } from "react";
 import { obtenerNotaPorId } from "../services/notas";
-import waves from "../assets/stack-waves.svg"
 
 function Nota() {
 
