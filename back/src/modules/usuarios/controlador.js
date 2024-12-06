@@ -1,81 +1,59 @@
-const TABLA = 'usuarios';
+const tabla = 'usuarios';
+const auth = require('../../autenticacion');
 const bcrypt = require('bcrypt');
-const autenticacion = require('../../autenticacion')
+const db = require('../../db/mysql');
 
 module.exports = function (dbInyectada) {
-    let db = dbInyectada;
 
-    if (!db) {
-        db = require('../../db/mysql')
+    let db = dbInyectada || require('../../db/mysql');
+
+    async function listar() {
+        return db.todos(tabla);
     }
 
-    async function login(usuario, password) {
-        const data = await db.query(TABLA, {correo: usuario});
+    async function obtener(id) {
+        return db.uno(tabla, id);
+    }
 
-        return bcrypt.compare(password, data.password)
-            .then(resultado => {
-                if (resultado === true) {
-                    return auth.asignarToken(data);
-                } else {
-                    throw new Error("Información Invalida");
-                }
-            })
-    }
-    async function agregar(data) {
-        if (data.username) {
-            authData.username = data.username
-        }
-        if(data.password) {
-            authData.password = await bcrypt.hash(data.password.toString(), 5);
-        }
-
-        return db.agregar(TABLA, authData);
-    }
-    
-
-    function todos() {
-        return db.todos(TABLA);
-    }
-    
-    function uno(id) {
-        return db.uno(TABLA, id);
-    }
-    
     async function agregar(body) {
         const usuario = {
-            id: body.id,
             nombre: body.nombre,
             apellido: body.apellido,
             correo: body.correo,
             telefono: body.telefono,
-            password: body.pass
+            password: await bcrypt.hash(body.password, 5)
         }
-        const respuesta = await db.agregar(TABLA, usuario);
-        var insertId = 0;
-        if (body.id == 0) {
-            insertId = respuesta.insertId;
-        } else {
-            insertId = body.id;
-        }
-        var respuesta2 = '';
-        if (body.usuario || body.password) {
-            respuesta2 = await auth.agregar({
-                id: insertId,
-                username: body.username,
-                password: body.password
-            })
-        } 
-        return respuesta2;
+        const respuesta = await db.agregar(tabla, usuario);
+        return {
+            ...usuario,
+            id: respuesta.insertId
+        };
     }
-    
-    function eliminar(body) {
-        return db.eliminar(TABLA, body);
+
+    async function eliminar(id) {
+        return db.eliminar(tabla, id);
+    }
+
+    async function login(correo, password) {
+        const data = await db.query(tabla, { correo: correo });
+        if (!data) {
+            throw new Error('Usuario no encontrado');
+        }
+
+        const sonIguales = await bcrypt.compare(password, data.password);
+        if (!sonIguales) {
+            throw new Error('Información inválida');
+        }
+
+        return auth.asignarToken({ ...data });
     }
 
     return {
-        todos,
-        uno,
+        listar,
+        obtener,
         agregar,
-        eliminar
+        eliminar,
+        login
     }
 }
+

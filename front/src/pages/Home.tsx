@@ -16,6 +16,7 @@ function Home() {
                     <a href="/crearNota" className="px-3 py-2 bg-cyan-500 rounded-lg font-semibold text-white hover:bg-cyan-600 transition-colors motion-preset-shake">Crear Notas</a>
 
                 </div>
+                
             </main>
             <SearchBar />
             

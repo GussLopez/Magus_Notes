@@ -60,6 +60,10 @@ const Notas = () => {
       <Header />
 
       <div className='max-w-screen-lg mx-auto px-2 mb-60 h-screen'>
+        <div className="bg-cyan-500 text-white rounded-md p-5 shadow mb-10">
+          <h2 className="text-lg font-bold mb-3">Frase Inspiradora del Día 🌟</h2>
+          <p className="italic">"{notas[0]?.frase || 'Escribe tu primera frase inspiradora para compartir con otros.'}"</p>
+        </div>
         <div className={`md:flex md:justify-between box-border px-5 py-3 my-10 rounded-md md:items-center`}>
           <h1 className="text-4xl font-bold mb-10 text-center md:mb-0 md:text-start">Mis Notas 🗒️</h1>
 

@@ -1,157 +1,102 @@
-import { useState } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { login, register } from '../services/auth';
 
-const API_URL = 'http://localhost:4000/api'; 
+const Login: React.FC = () => {
+  const [isLogin, setIsLogin] = useState(true);
+  const [nombre, setNombre] = useState('');
+  const [apellido, setApellido] = useState('');
+  const [correo, setCorreo] = useState('');
+  const [telefono, setTelefono] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState('');
+  const navigate = useNavigate();
 
-export default function AuthApp() {
-    const [isLogin, setIsLogin] = useState(true); 
-    
-    return (
-        <div className="auth-container">
-            {isLogin ? <LoginForm /> : <RegisterForm />}
-            <button onClick={() => setIsLogin(!isLogin)}>
-                {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
-            </button>
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError('');
+
+    try {
+      if (isLogin) {
+        const data = await login(correo, password);
+        // Aquí puedes guardar el token en localStorage o en un estado global
+        localStorage.setItem('token', data.token);
+        navigate('/');
+      } else {
+        await register(nombre, apellido, correo, telefono, password);
+        setIsLogin(true);
+      }
+    } catch (err) {
+      setError('Error en la autenticación. Por favor, intenta de nuevo.');
+    }
+  };
+
+  return (
+    <div>
+      <h2>{isLogin ? 'Iniciar Sesión' : 'Registro'}</h2>
+      <form onSubmit={handleSubmit}>
+        {!isLogin && (
+          <>
+            <div>
+              <label htmlFor="nombre">Nombre:</label>
+              <input
+                type="text"
+                id="nombre"
+                value={nombre}
+                onChange={(e) => setNombre(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="apellido">Apellido:</label>
+              <input
+                type="text"
+                id="apellido"
+                value={apellido}
+                onChange={(e) => setApellido(e.target.value)}
+                required
+              />
+            </div>
+            <div>
+              <label htmlFor="telefono">Teléfono:</label>
+              <input
+                type="tel"
+                id="telefono"
+                value={telefono}
+                onChange={(e) => setTelefono(e.target.value)}
+              />
+            </div>
+          </>
+        )}
+        <div>
+          <label htmlFor="correo">Correo:</label>
+          <input
+            type="email"
+            id="correo"
+            value={correo}
+            onChange={(e) => setCorreo(e.target.value)}
+            required
+          />
         </div>
-    );
-}
+        <div>
+          <label htmlFor="password">Contraseña:</label>
+          <input
+            type="password"
+            id="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </div>
+        <button type="submit">{isLogin ? 'Iniciar Sesión' : 'Registrarse'}</button>
+      </form>
+      <button onClick={() => setIsLogin(!isLogin)}>
+        {isLogin ? '¿No tienes cuenta? Regístrate' : '¿Ya tienes cuenta? Inicia sesión'}
+      </button>
+      {error && <p>{error}</p>}
+    </div>
+  );
+};
 
-function LoginForm() {
-    const [formData, setFormData] = useState({ username: '', password: '' });
+export default Login;
 
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(`${API_URL}/auth/login`, formData);
-            alert('Inicio de sesión exitoso');
-            console.log('Token:', response.data);
-        } catch (error) {
-            alert('Error al iniciar sesión: ' + error.response?.data?.message || error.message);
-        }
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2>Iniciar sesión</h2>
-            <label>
-                Usuario:
-                <input
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <label>
-                Contraseña:
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <button type="submit">Iniciar sesión</button>
-        </form>
-    );
-}
-
-function RegisterForm() {
-    const [formData, setFormData] = useState({
-        id: 0,
-        nombre: '',
-        apellido: '',
-        correo: '',
-        telefono: '',
-        activo: 1,
-        username: '',
-        password: '',
-    });
-
-    const handleChange = (e) => {
-        setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try {
-            const response = await axios.post(`${API_URL}/usuarios`, formData);
-            alert('Registro exitoso');
-            console.log('Respuesta del servidor:', response.data);
-        } catch (error) {
-            alert('Error al registrarse: ' + error.response?.data?.message || error.message);
-        }
-    };
-
-    return (
-        <form onSubmit={handleSubmit}>
-            <h2>Registrarse</h2>
-            <label>
-                Nombre:
-                <input
-                    type="text"
-                    name="nombre"
-                    value={formData.nombre}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <label>
-                Apellido:
-                <input
-                    type="text"
-                    name="apellido"
-                    value={formData.apellido}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <label>
-                Correo:
-                <input
-                    type="email"
-                    name="correo"
-                    value={formData.correo}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <label>
-                Teléfono:
-                <input
-                    type="text"
-                    name="telefono"
-                    value={formData.telefono}
-                    onChange={handleChange}
-                />
-            </label>
-            <label>
-                Usuario:
-                <input
-                    type="text"
-                    name="username"
-                    value={formData.username}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <label>
-                Contraseña:
-                <input
-                    type="password"
-                    name="password"
-                    value={formData.password}
-                    onChange={handleChange}
-                    required
-                />
-            </label>
-            <button type="submit">Registrarse</button>
-        </form>
-    );
-}
